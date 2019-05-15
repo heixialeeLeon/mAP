@@ -10,8 +10,8 @@ import numpy as np
 MINOVERLAP = 0.5 # default value (defined in the PASCAL VOC2012 challenge)
 
 parser = argparse.ArgumentParser()
-# parser.add_argument('-na', '--no-animation', help="no animation is shown.", action="store_true")
-# parser.add_argument('-np', '--no-plot', help="no plot is shown.", action="store_true")
+parser.add_argument('--gt', default='',type=str, help="gt source files")
+parser.add_argument('--det',default='',type = str,help="no plot is shown.")
 parser.add_argument('-q', '--quiet', help="minimalistic console output.", action="store_true")
 # argparse receiving list of classes to be ignored
 parser.add_argument('-i', '--ignore', nargs='+', type=str, help="ignore a list of classes.")
@@ -39,12 +39,15 @@ specific_iou_flagged = False
 if args.set_class_iou is not None:
     specific_iou_flagged = True
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-# GT_PATH = os.path.join(os.getcwd(), 'input', 'ground-truth')
-# DR_PATH = os.path.join(os.getcwd(), 'input', 'detection-results')
-GT_PATH = os.path.join("/data_1/data/temp/waiguan","gt")
-DR_PATH = os.path.join("/data_1/data/temp/waiguan","VOC_detect_result")
-IMG_PATH = os.path.join(os.getcwd(), 'input', 'images-optional')
+if args.gt !='' and args.det!= '':
+    GT_PATH = args.gt
+    DR_PATH = args.det
+else:
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    # GT_PATH = os.path.join(os.getcwd(), 'input', 'ground-truth')
+    # DR_PATH = os.path.join(os.getcwd(), 'input', 'detection-results')
+    GT_PATH = os.path.join("/data_1/data/temp/waiguan","gt")
+    DR_PATH = os.path.join("/data_1/data/temp/waiguan","VOC_detect_result")
 
 def log_average_miss_rate(precision, fp_cumsum, num_images):
     """
